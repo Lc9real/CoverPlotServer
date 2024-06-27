@@ -1,5 +1,9 @@
+
+
+
 public class Main {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, im the Server!");
+    public static void main(String[] args) throws Exception 
+    {
+        Server.startServer();      
     }
 }
