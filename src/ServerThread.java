@@ -117,9 +117,42 @@ public class ServerThread extends Thread
                 answer.data = User.getUserIDFromUsername((String)message.args[0], connection);
                 break;
             }
+            case "getUserIDFromEmail":
+            {
+                answer.data = User.getUserIDFromEmail((String)message.args[0], connection);
+                break;
+            }
             case "getUserInfo":
             {
                 answer.data = User.getUserInfo((int)message.args[0], connection);
+                break;
+            }
+            case "addUser":
+            {
+                User userToAdd = (User)message.args[0];
+                User.addUser(userToAdd, (int)message.args[1], connection);
+                answer.data = null;
+                break;
+            }
+            case "addUserEpisode":
+            {
+                UserEpisode userEpisode = (UserEpisode)message.args[0];
+                userEpisode.userID = user.id;
+                UserEpisode.addUserEpisode(userEpisode, connection);
+                answer.data = null;
+                break;
+            }
+            case "logIn":
+            {
+                if(User.checkPassword((String)message.args[0], (int)message.args[1], connection))
+                {
+                    user = User.getUserInfo(User.getUserIDFromEmail((String)message.args[0], connection), connection);
+                    answer.data = true;
+                }
+                else
+                {
+                    answer.data = false;
+                }
                 break;
             }
         }

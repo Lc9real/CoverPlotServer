@@ -6,7 +6,8 @@ import java.util.List;
 public class Comment implements Serializable
 {
 
-    public static class CommentLevel {
+    public static class CommentLevel implements Serializable
+    {
         public Comment comment;
         public int level;
 

@@ -61,6 +61,9 @@ public class User implements Serializable
 
     public static void addUser(User user, int password, Connection connection) throws SQLException
     {
+        if(getUserIDFromEmail(user.email, connection) != null) return;
+        if(getUserIDFromUsername(user.username, connection) != null) return;
+
         String sql = "INSERT INTO users (username, email, password, description) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) 
         {
