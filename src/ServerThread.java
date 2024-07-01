@@ -29,8 +29,12 @@ public class ServerThread extends Thread
     {
         try
         {
+            // Test not Final
             user = User.getUserInfo(1, connection);
             user.id = 1;
+            // Test not finale
+
+
             outputStream = new ObjectOutputStream(this.socket.getOutputStream());
             inputStream = new ObjectInputStream(this.socket.getInputStream());
 
@@ -89,7 +93,7 @@ public class ServerThread extends Thread
             }
             case "getComments":
             {
-                answer.data = Comment.getComments((int)message.args[0], (int)message.args[1], (SortBy)message.args[2], connection);
+                answer.data = Comment.getComments((int)message.args[0], (int)message.args[1], (SortBy)message.args[2], (int)message.args[3],connection);
                 break;
             }
             case "getSubComments":
@@ -153,6 +157,11 @@ public class ServerThread extends Thread
                 {
                     answer.data = false;
                 }
+                break;
+            }
+            case "getJoinedSeries":
+            {
+                answer.data = UserEpisode.getJoinedSeries(user, connection);
                 break;
             }
         }

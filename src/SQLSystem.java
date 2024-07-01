@@ -12,14 +12,14 @@ public class SQLSystem {
         {
             connection = DriverManager.getConnection("jdbc:sqlite:Database/CoverPlot.db");
             // Creates Tables if not already there
+            createTables();
+
 
             UserEpisode.addUserEpisode(new UserEpisode(1, 1, 12, 12), connection);
             UserEpisode.addUserEpisode(new UserEpisode(1, 2, 12, 12), connection);
             UserEpisode.addUserEpisode(new UserEpisode(1, 3, 12, 12), connection);
 
 
-            createTables();
-            
             return connection;
             
         }
@@ -35,12 +35,12 @@ public class SQLSystem {
 
     public static void testPosts() throws SQLException
     {
-        User.addUser(new User("Test", "test@gmail.com", ""), "12345678".hashCode(), connection);
+        User.addUser(new User("Test", "test@gmail.com", "", ""), "12345678".hashCode(), connection);
             
         // Add series
-        Series.addSeries(new Series("Naruto", "Naruto", ""), connection);
-        Series.addSeries(new Series("Edgerunner", "Edging the runners", ""), connection);
-        Series.addSeries(new Series("Arcane", "Psyco", ""), connection);
+        Series.addSeries(new Series("Naruto", "Naruto", "https://static.wikia.nocookie.net/denaruto3/images/9/9f/Smallnaruto.png/revision/latest/scale-to-width-down/600?cb=20110117195042&path-prefix=de"), connection);
+        Series.addSeries(new Series("Edgerunner", "Edging the runners", "https://ih1.redbubble.net/image.4203778419.3534/flat,750x,075,f-pad,750x1000,f8f8f8.jpg"), connection);
+        Series.addSeries(new Series("Arcane", "Psyco", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-tyIfIsqrbALqH_NysAFWcmjvaRxDLwi4Pg&s"), connection);
 
         // Add test posts and comments for the "Naruto" subreddit
         Post.addPost(new Post(1, 1, 1, 1, "Is Naruto Gay?", "What do you think?"), connection);
@@ -149,6 +149,7 @@ public class SQLSystem {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "username TEXT NOT NULL UNIQUE," +
                 "email TEXT NOT NULL UNIQUE, " +
+                "icon TEXT, " +
                 "vote INTEGER, " +
                 "description TEXT," +
                 "password INTEGER NOT NULL, " +

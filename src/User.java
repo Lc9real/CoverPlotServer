@@ -6,6 +6,7 @@ public class User implements Serializable
     public int id;
     public String username;
     public String email;
+    public String icon;
     public int vote;
     public String description;
     public Date createdAt;
@@ -15,18 +16,20 @@ public class User implements Serializable
 
     }
 
-    private User(int id, String username, String email, String description) 
+    private User(int id, String username, String email, String icon, String description) 
     {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.icon = icon;
         this.description = description;
     }
 
-    public User(String username, String email, String description) 
+    public User(String username, String email, String icon, String description) 
     {
         this.username = username;
         this.email = email;
+        this.icon = icon;
         this.description = description;
     }
 
@@ -64,13 +67,14 @@ public class User implements Serializable
         if(getUserIDFromEmail(user.email, connection) != null) return;
         if(getUserIDFromUsername(user.username, connection) != null) return;
 
-        String sql = "INSERT INTO users (username, email, password, description) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, email, password, icon, description) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) 
         {
-            pstmt.setString(1, user.username.toLowerCase());
+            pstmt.setString(1, user.username);
             pstmt.setString(2, user.email.toLowerCase());
             pstmt.setInt(3, password);
-            pstmt.setString(4, user.description);
+            pstmt.setString(4, user.icon);
+            pstmt.setString(5, user.description);
             pstmt.executeUpdate();
         }
     }
@@ -128,6 +132,7 @@ public class User implements Serializable
                 user.username = rs.getString("username");
                 user.email = rs.getString("email");
                 user.vote = rs.getInt("vote");
+                user.icon = rs.getString("icon");
                 user.description = rs.getString("description");
                 user.createdAt = rs.getDate("created_at");
 

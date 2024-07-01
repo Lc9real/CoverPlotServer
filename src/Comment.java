@@ -113,7 +113,7 @@ public class Comment implements Serializable
         return comment;
     }
 
-    public static List<Comment> getComments(int count, int post, SortBy sortBy, Connection connection) throws SQLException
+    public static List<Comment> getComments(int count, int post, SortBy sortBy, int offset, Connection connection) throws SQLException
     {
         List<Comment> comments = new ArrayList<>();
 
@@ -140,7 +140,7 @@ public class Comment implements Serializable
                 break;
         }
 
-        if(sortBy != SortBy.RANDOM) { sql += "LIMIT " + count; }
+        if(sortBy != SortBy.RANDOM) { sql += "LIMIT " + count + " OFFSET " + offset; }
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) 
         {
@@ -215,7 +215,7 @@ public class Comment implements Serializable
 
             commentsArray.add(new Comment.CommentLevel(comment, indentLevel));
             
-            List<Comment> subComments = getSubComments(10, comment.id, SortBy.VOTES, connection);
+            List<Comment> subComments = getSubComments(100, comment.id, SortBy.VOTES, connection);
 
             commentsArray.addAll(getAllSubComments(subComments, indentLevel + 1, connection));
         }

@@ -53,7 +53,7 @@ public class Series implements Serializable
         {
             String sql = "INSERT INTO series (name, description, icon) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-                pstmt.setString(1, series.name.toLowerCase());
+                pstmt.setString(1, series.name);
                 pstmt.setString(2, series.description);
                 pstmt.setString(3, series.icon);
                 pstmt.executeUpdate();
